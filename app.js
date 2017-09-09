@@ -31,11 +31,15 @@ async function validateRecipient(address, session) {
   return false;
 }
 
-async function forward(stream, session) {
+async function forward(stream, session, translate) {
   const buffer = await collect(stream);
-  for (const address of session.envelope.rcptTo) {
-    console.log(' Sending mail to %s', address.address);
-    const domain = address.address.match(/@(.*)$/)[1];
+  for (const a of session.envelope.rcptTo) {
+    const address = translate ? map[a.address] : a.address;
+    if (translate) {
+      console.log(' Mail to %s will be sent to %s', a.address, address);
+    }
+    console.log(' Sending mail to %s', address);
+    const domain = address.match(/@(.*)$/)[1];
     const exchanges = await resolveMx(domain);
     if (!exchanges[0]) {
       console.log(' No MX found for %s', domain);
@@ -55,7 +59,7 @@ async function forward(stream, session) {
       conn.connect(() => {
         conn.send({
           mailFrom: session.envelope.mailFrom.address,
-          to: address.address,
+          to: address,
         }, buffer, (err, info) => {
           conn.quit();
           if (err) return reject(err)
@@ -86,7 +90,7 @@ const server = new Server({
       });
   },
   onData: (stream, session, cb) => {
-    forward(stream, session).then(cb, cb);
+    forward(stream, session, true).then(cb, cb);
   },
 });
 
