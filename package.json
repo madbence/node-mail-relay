@@ -1,0 +1,34 @@
+{
+  "name": "mail-relay",
+  "version": "0.0.1",
+  "description": "A simple email relay",
+  "main": "app.js",
+  "files": [
+    "app.js"
+  ],
+  "dependencies": {
+    "nodemailer": "^4.1.0",
+    "smtp-server": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madbence/node-mail-relay.git"
+  },
+  "keywords": [
+    "mail",
+    "email",
+    "gmail",
+    "relay",
+    "smtp"
+  ],
+  "author": "Bence Dányi <bence@danyi.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/madbence/node-mail-relay/issues"
+  },
+  "homepage": "https://github.com/madbence/node-mail-relay#readme"
+}
