@@ -6,6 +6,9 @@
   "files": [
     "app.js"
   ],
+  "bin": {
+    "mail-relay": "./app.js"
+  },
   "dependencies": {
     "nodemailer": "^4.1.0",
     "smtp-server": "^3.1.0"

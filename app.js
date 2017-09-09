@@ -1,3 +1,5 @@
+#!/bin/env node
+
 const dns = require('dns');
 const Server = require('smtp-server').SMTPServer;
 const Connection = require('nodemailer/lib/smtp-connection');
