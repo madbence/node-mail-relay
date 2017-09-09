@@ -51,7 +51,7 @@ async function forward(stream, session, translate) {
       host: exchanges[0].exchange,
       port: 25,
       tls: {
-        rejectUnauthorized: true,
+        rejectUnauthorized: false,
       },
     });
 
