@@ -117,7 +117,9 @@ server2.on('error', err => console.error('ERR', err));
 
 server.listen(25, '0.0.0.0', () => {
   server2.listen(587, '0.0.0.0', () => {
-    process.setuid(99);
+    if (process.env.SETUID) {
+      process.setuid(+process.env.SETUID);
+    }
   });
 });
 

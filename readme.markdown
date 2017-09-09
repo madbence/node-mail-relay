@@ -21,6 +21,18 @@ $ npm i -g mail-relay
 $ mail-relay
 ```
 
+In order to bind to port `25` and `587`, you need to be `root` or you have to add `CAP_NET_BIND_SERVICE` to `mail-relay`. If you are concerned, run it as root, and drop privileges after start with [`SETUID`](#setuid).
+
+A full configuration example:
+
+```sh
+$ AUTH_USER=foo \
+  AUTH_PASS=bar \
+  MAIL_MAP='{"john@doe.com":"johndoe@gmail.com"}' \
+  SETUID=99 \
+  mail-relay
+```
+
 ## configuration
 
 With env vars.
@@ -42,6 +54,11 @@ Address mapping
   "john@doe.com": "johndoe@gmail.com"
 }
 ```
+
+### `SETUID`
+
+Set `uid` after ports are bound (ie. you no longer run as `root`).
+You probably want to set it to `$(id -u nobody)` (which is `65534` or `99` or something else, depending on your system).
 
 ## license
 
