@@ -27,7 +27,7 @@ async function validateRecipient(address, session) {
       return true;
     }
   }
-  console.log(' %s is not allowed, mail rejected!');
+  console.log(' %s is not allowed, mail rejected!', address.address);
   return false;
 }
 
