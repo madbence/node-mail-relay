@@ -30,6 +30,7 @@ async function validateRecipient(address, session) {
     }
   }
   console.log(' %s is not allowed, mail rejected!', address.address);
+  console.log('  (remote: %s, clientHostName: %s, hostNameAppearsAs: %s)', session.remoteAddress, session.clientHostname, session.hostNameAppearsAs);
   return false;
 }
 
