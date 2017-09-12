@@ -61,7 +61,7 @@ async function forward(stream, session, translate) {
     const result = await new Promise((resolve, reject) => {
       conn.connect(() => {
         conn.send({
-          mailFrom: session.envelope.mailFrom.address,
+          from: session.envelope.mailFrom.address,
           to: address,
         }, buffer, (err, info) => {
           conn.quit();
