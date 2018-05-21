@@ -1,6 +1,6 @@
 {
   "name": "mail-relay",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple email relay",
   "main": "app.js",
   "files": [
