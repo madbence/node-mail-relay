@@ -23,11 +23,9 @@ const resolveMx = address => new Promise((resolve, reject) => {
 
 async function validateRecipient(address, session) {
   console.log('Mail from %s to %s:', session.envelope.mailFrom.address, address.address);
-  for (const key of Object.keys(map)) {
-    if (key === address.address) {
-      console.log(' %s is allowed, proceed...', address.address);
-      return true;
-    }
+  if (Object.keys(map).includes(key)) {
+    console.log(' %s is allowed, proceed...', address.address);
+    return true;
   }
   console.log(' %s is not allowed, mail rejected!', address.address);
   console.log('  (remote: %s, clientHostName: %s, hostNameAppearsAs: %s)', session.remoteAddress, session.clientHostname, session.hostNameAppearsAs);
