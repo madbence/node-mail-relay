@@ -23,7 +23,7 @@ const resolveMx = address => new Promise((resolve, reject) => {
 
 async function validateRecipient(address, session) {
   console.log('Mail from %s to %s:', session.envelope.mailFrom.address, address.address);
-  if (Object.keys(map).includes(key)) {
+  if (Object.keys(map).includes(address.address)) {
     console.log(' %s is allowed, proceed...', address.address);
     return true;
   }
