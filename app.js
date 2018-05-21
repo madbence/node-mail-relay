@@ -5,6 +5,7 @@ const Server = require('smtp-server').SMTPServer;
 const Connection = require('nodemailer/lib/smtp-connection');
 
 const map = JSON.parse(process.env.MAIL_MAP);
+const sourceFilter = new RegExp(process.env.MAIL_SOURCE_FILTER);
 
 const collect = stream => new Promise((resolve, reject) => {
   let buffer = Buffer.alloc(0);
@@ -23,6 +24,9 @@ const resolveMx = address => new Promise((resolve, reject) => {
 
 async function validateRecipient(address, session) {
   console.log('Mail from %s to %s:', session.envelope.mailFrom.address, address.address);
+  if (session.envelope.mailFrom.address.match(sourceFilter)) {
+    console.log(' %s is not an allowed source, mail rejected!', session.envelope.mailFrom.address);
+  }
   if (Object.keys(map).includes(address.address)) {
     console.log(' %s is allowed, proceed...', address.address);
     return true;
