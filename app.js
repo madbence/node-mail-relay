@@ -33,13 +33,14 @@ async function validateRecipient(address, session) {
 }
 
 async function forward(stream, session, translate) {
-  const buffer = await collect(stream);
+  let buffer = (await collect(stream)).toString();
+  const source = session.envelope.mailFrom.address;
+  console.log(' Mail will be sent as %s', source);
   for (const a of session.envelope.rcptTo) {
     const address = translate ? map[a.address] : a.address;
     if (translate) {
       console.log(' Mail to %s will be sent to %s', a.address, address);
     }
-    console.log(' Sending mail to %s', address);
     const domain = address.match(/@(.*)$/)[1];
     const exchanges = await resolveMx(domain);
     if (!exchanges[0]) {
@@ -59,7 +60,7 @@ async function forward(stream, session, translate) {
     const result = await new Promise((resolve, reject) => {
       conn.connect(() => {
         conn.send({
-          from: session.envelope.mailFrom.address,
+          from: source,
           to: address,
         }, buffer, (err, info) => {
           conn.quit();
@@ -91,7 +92,10 @@ const server = new Server({
       });
   },
   onData: (stream, session, cb) => {
-    forward(stream, session, true).then(cb, cb);
+    forward(stream, session, true).then(cb, (err) => {
+      console.log('ERR', err);
+      cb(err);
+    });
   },
 });
 
@@ -107,8 +111,11 @@ const server2 = new Server({
     cb(new Error('Bad user or password'));
   },
   onData: (stream, session, cb) => {
-    console.log('%s wants to send a mail!', session.envelope.mailFrom.address);
-    forward(stream, session).then(cb, cb);
+    console.log('%s wants to send a mail to %s!', session.envelope.mailFrom.address, session.envelope.rcptTo[0].address);
+    forward(stream, session).then(cb, (err) => {
+      console.log('ERR', err);
+      cb(err);
+    });
   },
 });
 
