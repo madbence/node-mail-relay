@@ -55,6 +55,10 @@ Address mapping
 }
 ```
 
+### `MAIL_FILTER_SOURCE`
+
+Reject sources matching this pattern. If you are in control of `doe.com`, then you should probably reject mails coming from `@doe\.com$`.
+
 ### `SETUID`
 
 Set `uid` after ports are bound (ie. you no longer run as `root`).
